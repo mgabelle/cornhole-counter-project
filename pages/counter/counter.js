@@ -1,25 +1,36 @@
 import styles from '../../styles/Counter.module.css';
 import CounterButton from "./CounterButton";
-import {useState, useEffect} from 'react';
 
-export default function Counter() {
-    const [score, setScore] = useState({
-        "minusTwo": false,
-        "minusOne": false,
-        "boardPoints":0,
-        "holePoints":0
-    });
+export default function Counter({score, setScore}) {
 
-    useEffect(() => {
-        console.log(score);
-    })
+    function updateTimesTwo() {
+        setScore({
+            ...score,
+            timesTwo: !score.timesTwo
+        })
+    }
+
+    function updateMinusOne() {
+        setScore({
+            ...score,
+            minusOne: !score.minusOne
+        })
+    }
+
+    function addPoints(points) {
+        setScore({
+            ...score,
+            points: score.points + points 
+        })
+    }
+
     return (
         <div className={styles.Counter}>
             <div> 
                 <input 
                     type="checkbox"
-                    checked={score.minusTwo}
-                    onChange={() => {setScore({"minusTwo":!score.minusTwo})}}/>
+                    checked={score.timesTwo}
+                    onChange={updateTimesTwo}/>
                 X 2
             </div>
 
@@ -27,18 +38,20 @@ export default function Counter() {
                 <input 
                     type="checkbox"
                     checked={score.minusOne}
-                    onChange={() => {setScore({"minusTwo":!score.minusOne})}}/>
+                    onChange={updateMinusOne}/>
                 - 1
             </div>
 
             <CounterButton 
                 name={"Planche"} 
                 points={1}
+                pointsAdder={addPoints}
             />
 
             <CounterButton 
                 name={"Trou"} 
                 points={3}
+                pointsAdder={addPoints}
             />
         </div>
     )

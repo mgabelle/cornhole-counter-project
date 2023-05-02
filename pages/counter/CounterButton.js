@@ -1,23 +1,19 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 
-export default function Counter(props) {
-    const [innerScore, setInnerScore] = useState(0);
+export default function Counter({name, points, pointsAdder}) {
     const [counter, setInnerCounter] = useState(0);
-
-    useEffect(() => {
-        setInnerScore(counter*props.points);
-        console.log(innerScore);
-    });
 
     return (
             <div>
                 <button onClick={() => {
                     setInnerCounter(counter + 1);
+                    pointsAdder(points);
                 }}>+</button>
                 <button disabled={counter==0} onClick={() => {
                     setInnerCounter(counter - 1);
+                    pointsAdder(-points);
                 }}>-</button>
-                {props.name} : {counter}
+                {name} : {counter}
             </div>
     )
 }
