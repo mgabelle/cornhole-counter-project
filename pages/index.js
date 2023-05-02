@@ -3,7 +3,13 @@ import Counter from "./counter/Counter";
 import styles from '../styles/Main.module.css';
 import {useState, useEffect} from 'react';
 
+const POINTS_LIMIT = 15;
+const POINTS_DOWN = 10;
+
 export default function Home() {
+  const [totalScore, setTotalScore] = useState([0, 0]);
+  const [temporaryScore, setTemporaryScore] = useState([0, 0]);
+
   const [scorePlayer1, setScorePlayer1] = useState({
     timesTwo: false,
     minusOne: false,
@@ -19,15 +25,25 @@ export default function Home() {
   const [pointsPlayer1, setPointsPlayer1] = useState(0);
   const [pointsPlayer2, setPointsPlayer2] = useState(0);
 
-  function updatePointsPlayer1() {
-    let points = scorePlayer1.points*(scorePlayer1.timesTwo ? 2 : 1) - (scorePlayer2.minusOne ? 1 : 0)
-    setPointsPlayer1(points);
+  function updatePointsAndScore() {
+    //Set points for each player
+    let pointsPlayer1 = scorePlayer1.points*(scorePlayer1.timesTwo ? 2 : 1) - (scorePlayer2.minusOne ? 1 : 0);
+    let pointsPlayer2 = scorePlayer2.points*(scorePlayer2.timesTwo ? 2 : 1) - (scorePlayer1.minusOne ? 1 : 0);
+    setPointsPlayer1(pointsPlayer1);
+    setPointsPlayer2(pointsPlayer2);
+
+    //Set temporary score
+    let points = pointsPlayer1 - pointsPlayer2;
+    if (points > 0) {
+      setTemporaryScore([calculateNewScore(totalScore[0], points), totalScore[1]]);
+    } else {
+      setTemporaryScore([totalScore[0], calculateNewScore(totalScore[1], points)]);
+    }
   }
 
-  function updatePointsPlayer2() {
-    let points = scorePlayer2.points*(scorePlayer2.timesTwo ? 2 : 1) - (scorePlayer1.minusOne ? 1 : 0)
-    setPointsPlayer2(points);
-  }
+  useEffect(() => {
+    updatePointsAndScore();
+  }, [scorePlayer1, scorePlayer2]);
 
   return (
     <div className={styles.Main}>
@@ -43,7 +59,7 @@ export default function Home() {
 
       {/* Total score */}
       <div className={styles.Score}>
-        Score : 12 - 5
+        Score : {totalScore[0]} - {totalScore[1]}
       </div>
       
       {/* Score counter */}
@@ -57,7 +73,7 @@ export default function Home() {
       <div className={styles.TemporaryScore}>
         Points equipe 1 : {pointsPlayer1} <br/>
         Points equipe 2 : {pointsPlayer2} <br/>
-        Score temporaire : 12 - 8
+        Score temporaire : {temporaryScore[0]} - {temporaryScore[1]}
       </div>
 
       <style global jsx>
@@ -72,4 +88,9 @@ export default function Home() {
       </style>
     </div>
   )
+}
+
+function calculateNewScore(currentScore, points) {
+  let newScore = currentScore + Math.abs(points);
+  return (newScore > POINTS_LIMIT) ? POINTS_DOWN : newScore;
 }
