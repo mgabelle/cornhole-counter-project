@@ -10,19 +10,9 @@ export default function Home() {
   const [totalScore, setTotalScore] = useState([0, 0]);
   const [temporaryScore, setTemporaryScore] = useState([0, 0]);
 
-  const [scorePlayer1, setScorePlayer1] = useState({
-    timesTwo: false,
-    minusOne: false,
-    board:0,
-    hole:0
-  });
+  const [scorePlayer1, setScorePlayer1] = useState(createNewScore());
 
-  const [scorePlayer2, setScorePlayer2] = useState({
-    timesTwo: false,
-    minusOne: false,
-    board:0,
-    hole:0
-  });
+  const [scorePlayer2, setScorePlayer2] = useState(createNewScore());
 
   const [pointsPlayer1, setPointsPlayer1] = useState(0);
   const [pointsPlayer2, setPointsPlayer2] = useState(0);
@@ -53,8 +43,21 @@ export default function Home() {
     setRound(round + 1);
     setTotalScore(temporaryScore);
     setTemporaryScore([0,0]);
-    setScorePlayer1({timesTwo:false, minusOne:false, board:0, hole:0});
-    setScorePlayer2({timesTwo:false, minusOne:false, board:0, hole:0});
+    setScorePlayer1(createNewScore());
+    setScorePlayer2(createNewScore());
+
+    if (temporaryScore[0] == POINTS_LIMIT || temporaryScore[1] == POINTS_LIMIT) {
+      announceWinner(temporaryScore);
+      resetGame();
+    }
+  }
+
+  function resetGame() {
+    setRound(0);
+    setTotalScore([0,0]);
+    setTemporaryScore([0,0]);
+    setScorePlayer1(createNewScore());
+    setScorePlayer2(createNewScore());
   }
 
   return (
@@ -111,3 +114,17 @@ function calculateNewScore(currentScore, points) {
   let newScore = currentScore + Math.abs(points);
   return (newScore > POINTS_LIMIT) ? POINTS_DOWN : newScore;
 }
+
+function createNewScore() {
+  return {
+    timesTwo:false, 
+    minusOne:false, 
+    board:0, 
+    hole:0
+  }
+}
+
+function announceWinner(totalScore) {
+  console.log(totalScore);
+  alert(`Game over. Score is ${totalScore[0]} - ${totalScore[1]}`);
+ }
