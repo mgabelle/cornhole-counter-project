@@ -17,10 +17,17 @@ export default function Counter({score, setScore}) {
         })
     }
 
-    function addPoints(points) {
+    function updateBoard(points) {
         setScore({
             ...score,
-            points: score.points + points 
+            board: score.board + points 
+        })
+    }
+
+    function updateHole(points) {
+        setScore({
+            ...score,
+            hole: score.hole + points 
         })
     }
 
@@ -44,14 +51,15 @@ export default function Counter({score, setScore}) {
 
             <CounterButton 
                 name={"Planche"} 
-                points={1}
-                pointsAdder={addPoints}
+                variable={score.board}
+                setter={updateBoard}
+    
             />
 
             <CounterButton 
                 name={"Trou"} 
-                points={3}
-                pointsAdder={addPoints}
+                variable={score.hole}
+                setter={updateHole}
             />
         </div>
     )

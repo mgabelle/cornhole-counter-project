@@ -1,19 +1,14 @@
-import {useState} from 'react';
-
-export default function Counter({name, points, pointsAdder}) {
-    const [counter, setInnerCounter] = useState(0);
-
+export default function Counter({name, variable, setter}) {
     return (
             <div>
                 <button onClick={() => {
-                    setInnerCounter(counter + 1);
-                    pointsAdder(points);
+                    setter(1);
                 }}>+</button>
-                <button disabled={counter==0} onClick={() => {
-                    setInnerCounter(counter - 1);
-                    pointsAdder(-points);
+                <button disabled={variable==0} 
+                        onClick={() => {
+                    setter(-1);
                 }}>-</button>
-                {name} : {counter}
+                {name} : {variable}
             </div>
     )
 }

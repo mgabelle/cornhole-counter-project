@@ -13,22 +13,30 @@ export default function Home() {
   const [scorePlayer1, setScorePlayer1] = useState({
     timesTwo: false,
     minusOne: false,
-    points:0,
+    board:0,
+    hole:0
   });
 
   const [scorePlayer2, setScorePlayer2] = useState({
     timesTwo: false,
     minusOne: false,
-    points:0
+    board:0,
+    hole:0
   });
 
   const [pointsPlayer1, setPointsPlayer1] = useState(0);
   const [pointsPlayer2, setPointsPlayer2] = useState(0);
+  
+  const [round, setRound] = useState(1);
+
+  useEffect(() => {
+    updatePointsAndScore();
+  }, [scorePlayer1, scorePlayer2]);
 
   function updatePointsAndScore() {
     //Set points for each player
-    let pointsPlayer1 = scorePlayer1.points*(scorePlayer1.timesTwo ? 2 : 1) - (scorePlayer2.minusOne ? 1 : 0);
-    let pointsPlayer2 = scorePlayer2.points*(scorePlayer2.timesTwo ? 2 : 1) - (scorePlayer1.minusOne ? 1 : 0);
+    let pointsPlayer1 = (scorePlayer1.board + scorePlayer1.hole*3)*(scorePlayer1.timesTwo ? 2 : 1) - (scorePlayer2.minusOne ? 1 : 0);
+    let pointsPlayer2 = (scorePlayer2.board + scorePlayer2.hole*3)*(scorePlayer2.timesTwo ? 2 : 1) - (scorePlayer1.minusOne ? 1 : 0);
     setPointsPlayer1(pointsPlayer1);
     setPointsPlayer2(pointsPlayer2);
 
@@ -41,9 +49,13 @@ export default function Home() {
     }
   }
 
-  useEffect(() => {
-    updatePointsAndScore();
-  }, [scorePlayer1, scorePlayer2]);
+  function validateRound() {
+    setRound(round + 1);
+    setTotalScore(temporaryScore);
+    setTemporaryScore([0,0]);
+    setScorePlayer1({timesTwo:false, minusOne:false, board:0, hole:0});
+    setScorePlayer2({timesTwo:false, minusOne:false, board:0, hole:0});
+  }
 
   return (
     <div className={styles.Main}>
@@ -54,7 +66,7 @@ export default function Home() {
       {/* Informations */}
       <div className={styles.Info}>
         <div>Time : </div>
-        <div>Manche :</div>
+        <div>Manche : {round}</div>
       </div>
 
       {/* Total score */}
@@ -74,6 +86,11 @@ export default function Home() {
         Points equipe 1 : {pointsPlayer1} <br/>
         Points equipe 2 : {pointsPlayer2} <br/>
         Score temporaire : {temporaryScore[0]} - {temporaryScore[1]}
+      </div>
+
+      {/* Next round */}
+      <div className={styles.RoundButtonDiv}>
+        <button onClick={validateRound}>Valider la manche</button>
       </div>
 
       <style global jsx>
