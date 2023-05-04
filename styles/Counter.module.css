@@ -1,4 +1,11 @@
 .Counter {
     width: 50%;
     text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.CounterElement {
+    width: 100%;
+    height: 25%;
 }

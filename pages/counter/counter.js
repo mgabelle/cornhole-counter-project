@@ -45,7 +45,7 @@ export default function Counter({score, setScore}) {
 
     return (
         <div className={styles.Counter}>
-            <div> 
+            <div className={styles.CounterElement}> 
                 <input 
                     type="checkbox"
                     checked={score.timesTwo}
@@ -53,7 +53,7 @@ export default function Counter({score, setScore}) {
                 X 2
             </div>
 
-            <div> 
+            <div className={styles.CounterElement}> 
                 <input 
                     type="checkbox"
                     checked={score.minusOne}
@@ -61,19 +61,25 @@ export default function Counter({score, setScore}) {
                 - 1
             </div>
 
-            <CounterButton 
-                name={"Planche"} 
-                variable={score.board}
-                setter={updateBoard}
-                disabledCounter={disabledCounter}
-            />
-
-            <CounterButton 
-                name={"Trou"} 
-                variable={score.hole}
-                setter={updateHole}
-                disabledCounter={disabledCounter}
-            />
+            <div className={styles.CounterElement}>
+                <CounterButton 
+                    name={"Planche"} 
+                    variable={score.board}
+                    setter={updateBoard}
+                    disabledCounter={disabledCounter}
+                    className={styles.CounterElement}
+                />
+            </div>
+            
+            <div className={styles.CounterElement}>
+                <CounterButton 
+                    name={"Trou"} 
+                    variable={score.hole}
+                    setter={updateHole}
+                    disabledCounter={disabledCounter}
+                    className={styles.CounterElement}
+                />
+            </div>
         </div>
     )
 }
