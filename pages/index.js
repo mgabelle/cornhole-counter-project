@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import Counter from "./counter/Counter";
+import Score from "./score/Score";
+
 import styles from '../styles/Main.module.css';
 import {useState, useEffect} from 'react';
 
@@ -73,9 +75,7 @@ export default function Home() {
       </div>
 
       {/* Total score */}
-      <div className={styles.Score}>
-        Score : {totalScore[0]} - {totalScore[1]}
-      </div>
+      <Score totalScore={totalScore}/>
       
       {/* Score counter */}
       <div className={styles.CounterContainer}>
