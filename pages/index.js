@@ -103,6 +103,7 @@ export default function Home() {
           body > div:first-child,
           div#__next,
           div#__next > div {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
             height: 100%;}`
         }
       </style>

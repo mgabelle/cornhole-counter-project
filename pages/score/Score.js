@@ -8,7 +8,6 @@ export default function Score({totalScore}) {
                         display: flex;
                         height: 5%;
                         justify-content: center;
-                        font-family: Verdana, Geneva, Tahoma, sans-serif;
                         font-size: 3em;
                     }`
                 }
