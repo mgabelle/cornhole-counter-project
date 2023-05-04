@@ -1,7 +1,19 @@
 import styles from '../../styles/Counter.module.css';
 import CounterButton from "./CounterButton";
+import {useState, useEffect} from 'react';
 
 export default function Counter({score, setScore}) {
+
+    const [disabledCounter, setDisabledCounter] = useState(false);
+
+    useEffect(() => {
+        //Cornhole rules : no more than 4 bags
+        if (score.board + score.hole == 4) {
+            setDisabledCounter(true);
+        } else {
+            setDisabledCounter(false);
+        }
+    }, [score])
 
     function updateTimesTwo() {
         setScore({
@@ -53,13 +65,14 @@ export default function Counter({score, setScore}) {
                 name={"Planche"} 
                 variable={score.board}
                 setter={updateBoard}
-    
+                disabledCounter={disabledCounter}
             />
 
             <CounterButton 
                 name={"Trou"} 
                 variable={score.hole}
                 setter={updateHole}
+                disabledCounter={disabledCounter}
             />
         </div>
     )
