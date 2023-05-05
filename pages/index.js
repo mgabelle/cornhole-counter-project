@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Counter from "./counter/Counter";
 import Score from "./score/Score";
+import Timer from './timer/Timer';
 
 import styles from '../styles/Main.module.css';
 import {useState, useEffect} from 'react';
@@ -9,6 +10,8 @@ const POINTS_LIMIT = 15;
 const POINTS_DOWN = 10;
 
 export default function Home() {
+  const [time, setTime] = useState(600);
+
   const [totalScore, setTotalScore] = useState([0, 0]);
   const [temporaryScore, setTemporaryScore] = useState([0, 0]);
 
@@ -70,7 +73,7 @@ export default function Home() {
 
       {/* Informations */}
       <div className={styles.Info}>
-        <div>Time : </div>
+        <Timer time={time} setTime={setTime}/>
         <div>Manche : {round}</div>
       </div>
 
