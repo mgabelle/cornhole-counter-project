@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {timeToMinutesSecondes} from '../utils.js';
+import {timeToMinutesSecondes} from '../../utils.js';
 
 export default function Timer({time, setTime}) {
     const [isPaused, setIsPaused] = useState(true);

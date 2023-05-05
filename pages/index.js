@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import Counter from "./counter/Counter";
-import Score from "./score/Score";
-import Timer from './timer/Timer';
+import Counter from "../components/counter/Counter";
+import Score from "../components/score/Score";
+import Timer from '../components/timer/Timer';
 
 import styles from '../styles/Main.module.css';
 import {useState, useEffect} from 'react';
@@ -107,7 +107,8 @@ export default function Home() {
           div#__next,
           div#__next > div {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            height: 100%;}`
+            height: 100%;}
+          `
         }
       </style>
     </div>
