@@ -46,8 +46,8 @@ export default function Timer({time, setTime}) {
                 }}
                 style={{
                     cursor:"pointer",
-                    height:"30px", 
-                    width:"30px",
+                    height:"40px", 
+                    width:"40px",
                     marginLeft: "15px",
                 }}
             ></img>
