@@ -1,8 +1,14 @@
 .Counter {
     width: 50%;
+    max-width: 300px;
     text-align: center;
     display: flex;
     flex-wrap: wrap;
+    background: url("/cornhole-board-image.png") no-repeat;
+    background-size: 105% 105%;
+    background-position-x: 50%;
+    border: solid 1px;
+    border-radius: 20px;
 }
 
 .CounterElement {

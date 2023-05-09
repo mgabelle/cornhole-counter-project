@@ -19,13 +19,9 @@
 .CounterContainer {
     width: 100%;
     display: flex;
+    justify-content: space-around;
     height: 40%;
     margin-bottom: 1rem; 
-}
-
-.CounterLine {
-    width: 2px;
-    background-color: black;
 }
 
 .TemporaryScore {

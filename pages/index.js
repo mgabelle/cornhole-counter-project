@@ -89,7 +89,6 @@ export default function Home() {
       {/* Score counter */}
       <div className={styles.CounterContainer}>
         <Counter score={scorePlayer1} setScore={setScorePlayer1}/>
-        <div className={styles.CounterLine}></div>
         <Counter score={scorePlayer2} setScore={setScorePlayer2}/>
       </div>
 
