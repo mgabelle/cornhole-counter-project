@@ -4,6 +4,7 @@ import {timeToMinutesSecondes} from '../../utils.js';
 export default function Timer({time, setTime}) {
     const [isPaused, setIsPaused] = useState(true);
     const [timer, setTimer] = useState(null);
+    const [imageSource, setImageSource] = useState(getImageSource(true));
 
     function createTimer() {
         if (time == 0) return null;
@@ -31,11 +32,32 @@ export default function Timer({time, setTime}) {
     }, [isPaused])
 
     return (
-        <div>
-            Time : {timeToMinutesSecondes(time)} <br/>
-            <button disabled={time == 0} onClick={() => setIsPaused(!isPaused)}>
-                {isPaused ? "Start" : "Pause"}
-            </button>
+        <div style={{
+            display: "flex",
+            alignItems: "center"
+        }}>
+            <img 
+                src={imageSource}
+                onClick={() => {
+                    if (time > 0) {
+                        setIsPaused(!isPaused);
+                        setImageSource(getImageSource(!isPaused));
+                    }
+                }}
+                style={{
+                    cursor:"pointer",
+                    height:"30px", 
+                    width:"30px",
+                    marginLeft: "15px",
+                }}
+            ></img>
+            <span style={{marginLeft:"15px"}}>
+                {timeToMinutesSecondes(time)}
+            </span>
         </div>
     )
+}
+
+function getImageSource(isPaused) {
+    return isPaused ? "/play-button.png" : "/pause-button.png";
 }

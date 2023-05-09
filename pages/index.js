@@ -71,10 +71,24 @@ export default function Home() {
         <link rel="shortcut icon" href="/cornhole-image.ico" />
       </Head>
 
+      {/* Background Image */}
+      <img src="/main-background.jpg" style={{
+        zIndex: -1,
+        position: "absolute",
+        width: "100vw",
+        height: "100vh",
+        left: 0,
+        top: 0,
+        opacity: 0.9
+      }}></img>
+
       {/* Informations */}
       <div className={styles.Info}>
         <Timer time={time} setTime={setTime}/>
-        <div>Manche : {round}</div>
+        <div style={{
+          textAlign: "right",
+          marginRight: "15px"
+        }}>Manche : {round}</div>
       </div>
 
       {/* Total score */}
@@ -107,7 +121,9 @@ export default function Home() {
           div#__next,
           div#__next > div {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            height: 100%;}
+            height: 100%;
+            overflow: hidden;
+          }
           `
         }
       </style>
