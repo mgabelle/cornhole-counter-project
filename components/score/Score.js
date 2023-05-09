@@ -6,7 +6,7 @@ export default function Score({totalScore}) {
                     `.Score {
                         width: 100%;
                         display: flex;
-                        height: 5%;
+                        height: 8%;
                         justify-content: center;
                         font-size: 3em;
                     }`

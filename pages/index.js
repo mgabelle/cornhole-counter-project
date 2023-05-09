@@ -1,7 +1,9 @@
 import Head from 'next/head';
 import Counter from "../components/counter/Counter";
 import Score from "../components/score/Score";
-import Timer from '../components/timer/Timer';
+import Timer from '../components/informations/Timer';
+import Background from '../components/Background';
+import Round from '../components/informations/Round';
 
 import styles from '../styles/Main.module.css';
 import {useState, useEffect} from 'react';
@@ -69,26 +71,16 @@ export default function Home() {
     <div className={styles.Main}>
       <Head>
         <link rel="shortcut icon" href="/cornhole-image.ico" />
+        <title>Cornhole</title>
       </Head>
 
       {/* Background Image */}
-      <img src="/main-background.jpg" style={{
-        zIndex: -1,
-        position: "absolute",
-        width: "100vw",
-        height: "100vh",
-        left: 0,
-        top: 0,
-        opacity: 0.9
-      }}></img>
+      <Background/>
 
       {/* Informations */}
       <div className={styles.Info}>
         <Timer time={time} setTime={setTime}/>
-        <div style={{
-          textAlign: "right",
-          marginRight: "15px"
-        }}>Manche : {round}</div>
+        <Round round={round}/>
       </div>
 
       {/* Total score */}
