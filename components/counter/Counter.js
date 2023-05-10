@@ -1,6 +1,7 @@
 import styles from '../../styles/Counter.module.css';
 import CounterButton from "./CounterButton";
 import {useState, useEffect} from 'react';
+import Switch from '@mui/material/Switch';
 
 export default function Counter({score, setScore}) {
 
@@ -45,20 +46,24 @@ export default function Counter({score, setScore}) {
 
     return (
         <div className={styles.Counter}>
-            <div className={styles.CounterElement}> 
-                <input 
-                    type="checkbox"
-                    checked={score.timesTwo}
-                    onChange={updateTimesTwo}/>
-                X 2
-            </div>
+            <div className={styles.Checkbox}>
+                <div>
+                    <Switch 
+                        checked={score.timesTwo}
+                        onChange={updateTimesTwo}
+                        size='small'
+                        inputProps={{ 'aria-label': 'controlled' }}/>
+                    <span style={{whiteSpace:"nowrap"}}>X 2</span>
+                </div>
 
-            <div className={styles.CounterElement}> 
-                <input 
-                    type="checkbox"
-                    checked={score.minusOne}
-                    onChange={updateMinusOne}/>
-                - 1
+                <div>
+                    <Switch 
+                            checked={score.minusOne}
+                            onChange={updateMinusOne}
+                            size='small'
+                            inputProps={{ 'aria-label': 'controlled' }}/>
+                    <span style={{whiteSpace:"nowrap"}}>- 1</span>
+                </div>
             </div>
 
             <div className={styles.CounterElement}>
