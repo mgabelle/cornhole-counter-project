@@ -3,7 +3,7 @@ import CounterButton from "./CounterButton";
 import {useState, useEffect} from 'react';
 import Switch from '@mui/material/Switch';
 
-export default function Counter({score, setScore}) {
+export default function Counter({score, setScore, color}) {
 
     const [disabledCounter, setDisabledCounter] = useState(false);
 
@@ -49,6 +49,7 @@ export default function Counter({score, setScore}) {
             <div className={styles.Checkbox}>
                 <div>
                     <Switch 
+                        color={color}
                         checked={score.timesTwo}
                         onChange={updateTimesTwo}
                         inputProps={{ 'aria-label': 'controlled' }}/>
@@ -57,6 +58,7 @@ export default function Counter({score, setScore}) {
 
                 <div>
                     <Switch 
+                            color={color}
                             checked={score.minusOne}
                             onChange={updateMinusOne}
                             inputProps={{ 'aria-label': 'controlled' }}/>
@@ -71,6 +73,7 @@ export default function Counter({score, setScore}) {
                     setter={updateBoard}
                     disabledCounter={disabledCounter}
                     className={styles.CounterElement}
+                    color={color}
                 />
             </div>
             
@@ -81,6 +84,7 @@ export default function Counter({score, setScore}) {
                     setter={updateHole}
                     disabledCounter={disabledCounter}
                     className={styles.CounterElement}
+                    color={color}
                 />
             </div>
         </div>

@@ -1,14 +1,32 @@
-export default function Counter({name, variable, setter, disabledCounter}) {
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+
+export default function Counter({name, variable, setter, disabledCounter, color}) {
     return (
             <>
-                <button disabled={disabledCounter} onClick={() => {
-                    setter(1);
-                }}>+</button>
-                <button disabled={variable==0} 
+                {name}
+
+                <br/>
+                
+                <ButtonGroup 
+                    variant="contained" 
+                    aria-label="outlined button group"
+                    color={color}
+                    >
+                    <Button 
                         onClick={() => {
-                    setter(-1);
-                }}>-</button>
-                {name} : {variable}
+                            if (!disabledCounter) {
+                                setter(1);
+                            }
+                    }}>+</Button>
+                    <Button variant='outlined'>{variable}</Button>
+                    <Button
+                        onClick={() => {
+                            if (variable > 0) {
+                                setter(-1);
+                            }
+                    }}>-</Button>
+                </ButtonGroup>
             </>
     )
 }

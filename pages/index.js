@@ -88,8 +88,8 @@ export default function Home() {
       
       {/* Score counter */}
       <div className={styles.CounterContainer}>
-        <Counter score={scorePlayer1} setScore={setScorePlayer1}/>
-        <Counter score={scorePlayer2} setScore={setScorePlayer2}/>
+        <Counter score={scorePlayer1} setScore={setScorePlayer1} color="primary"/>
+        <Counter score={scorePlayer2} setScore={setScorePlayer2} color="error"/>
       </div>
 
       {/* Temporary score */}
