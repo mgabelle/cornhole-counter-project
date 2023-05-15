@@ -51,7 +51,6 @@ export default function Counter({score, setScore}) {
                     <Switch 
                         checked={score.timesTwo}
                         onChange={updateTimesTwo}
-                        size='small'
                         inputProps={{ 'aria-label': 'controlled' }}/>
                     <span style={{whiteSpace:"nowrap"}}>X 2</span>
                 </div>
@@ -60,7 +59,6 @@ export default function Counter({score, setScore}) {
                     <Switch 
                             checked={score.minusOne}
                             onChange={updateMinusOne}
-                            size='small'
                             inputProps={{ 'aria-label': 'controlled' }}/>
                     <span style={{whiteSpace:"nowrap"}}>- 1</span>
                 </div>
