@@ -55,7 +55,10 @@ export default function Home() {
 
     if (temporaryScore[0] == POINTS_LIMIT || temporaryScore[1] == POINTS_LIMIT) {
       announceWinner(temporaryScore);
-      resetGame();
+    }
+
+    if (time === 0 && temporaryScore[0] !== temporaryScore[1]) {
+      announceWinner(temporaryScore);
     }
   }
 
