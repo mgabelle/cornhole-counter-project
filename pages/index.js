@@ -97,18 +97,19 @@ export default function Home() {
       </div>
 
       {/* Temporary score */}
-      <div className={styles.TemporaryScore}>
+      <div className={styles.BottomDiv}>
         <TemporaryScore 
             pointsPlayer1={pointsPlayer1}
             pointsPlayer2={pointsPlayer2}
             temporaryScore={temporaryScore}
         />
+
+        {/* Next round */}
+        <div>
+          <button onClick={validateRound}>Valider la manche</button>
+        </div>
       </div>
 
-      {/* Next round */}
-      <div className={styles.RoundButtonDiv}>
-        <button onClick={validateRound}>Valider la manche</button>
-      </div>
 
       <style global jsx>
         {`
