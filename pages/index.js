@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Counter from "../components/counter/Counter";
 import Score from "../components/score/Score";
+import TemporaryScore from '../components/score/TemporaryScore';
 import Timer from '../components/informations/Timer';
 import Background from '../components/Background';
 import Round from '../components/informations/Round';
@@ -97,9 +98,11 @@ export default function Home() {
 
       {/* Temporary score */}
       <div className={styles.TemporaryScore}>
-        Points equipe 1 : {pointsPlayer1} <br/>
-        Points equipe 2 : {pointsPlayer2} <br/>
-        Score temporaire : {temporaryScore[0]} - {temporaryScore[1]}
+        <TemporaryScore 
+            pointsPlayer1={pointsPlayer1}
+            pointsPlayer2={pointsPlayer2}
+            temporaryScore={temporaryScore}
+        />
       </div>
 
       {/* Next round */}

@@ -13,19 +13,21 @@ export default function Counter({name, variable, setter, disabledCounter, color}
                     aria-label="outlined button group"
                     color={color}
                     >
+                    <Button
+                        onClick={() => {
+                            if (variable > 0) {
+                                setter(-1);
+                            }
+                        }}>-</Button>
+                        
+                    <Button variant='outlined'>{variable}</Button>
+
                     <Button 
                         onClick={() => {
                             if (!disabledCounter) {
                                 setter(1);
                             }
                     }}>+</Button>
-                    <Button variant='outlined'>{variable}</Button>
-                    <Button
-                        onClick={() => {
-                            if (variable > 0) {
-                                setter(-1);
-                            }
-                    }}>-</Button>
                 </ButtonGroup>
             </>
     )
