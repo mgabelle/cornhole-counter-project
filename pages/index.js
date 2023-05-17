@@ -133,6 +133,11 @@ export default function Home() {
             height: 100%;
             overflow: hidden;
           }
+
+          body {
+            max-width: 450px;
+            margin: auto;
+          }
           `
         }
       </style>

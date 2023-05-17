@@ -7,7 +7,7 @@ export default function Background() {
             height: "100vh",
             left: 0,
             top: 0,
-            opacity: 0.5
+            opacity: 0.5,
           }}></img>
     )
 }
