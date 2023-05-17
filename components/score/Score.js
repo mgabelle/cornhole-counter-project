@@ -28,9 +28,7 @@ export default function Score({totalScore}) {
             </style>
             <div className="Score">
                 <Button variant="contained" color='primary' sx={leftButtonStyle}></Button>
-                    {totalScore[0]} 
-                    - 
-                    {totalScore[1]}
+                    <span>{totalScore[0]}-{totalScore[1]}</span>
                 <Button variant="contained" color='error' sx={rightButtonStyle}></Button>
             </div>
         </>
