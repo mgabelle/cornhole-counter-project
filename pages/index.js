@@ -5,6 +5,7 @@ import TemporaryScore from '../components/score/TemporaryScore';
 import Timer from '../components/informations/Timer';
 import Background from '../components/Background';
 import Round from '../components/informations/Round';
+import Button from '@mui/material/Button';
 
 import styles from '../styles/Main.module.css';
 import {useState, useEffect} from 'react';
@@ -105,9 +106,19 @@ export default function Home() {
         />
 
         {/* Next round */}
-        <div>
-          <button onClick={validateRound}>Valider la manche</button>
-        </div>
+        <Button 
+          variant="contained" 
+          color='success'
+          sx={{
+            maxWidth: "70px",
+            maxHeight: "70px",
+            width: "70px",
+            height: "50px",
+            fontSize: "10px",
+            alignSelf: "center"
+          }}
+          onClick={validateRound}
+        >Valider<br/> Manche</Button>
       </div>
 
 

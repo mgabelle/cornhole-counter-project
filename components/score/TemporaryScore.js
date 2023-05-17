@@ -25,7 +25,7 @@ export default function TemporaryScore({pointsPlayer1, pointsPlayer2, temporaryS
                         `
                             table {
                                 border: 1px solid rgba(0,2,9,0.8113446062018558);
-                                width: 60%;
+                                width: 75%;
                                 max-width: 400px;
                                 margin-right: 1em;
                                 border-spacing: 0;
