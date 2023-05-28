@@ -1,4 +1,4 @@
-export {timeToMinutesSecondes};
+export {timeToMinutesSecondes, isBlank};
 
 function timeToMinutesSecondes(time) {
 	var min = Math.floor(time/60);
@@ -12,4 +12,11 @@ function timeToMinutesSecondes(time) {
         sec = `0${sec}`
     }
 	return `${min}:${sec}`;
+}
+
+function isBlank(text) {
+    if (!text || text.trim() === "") {
+        return true;
+    }
+    return false;
 }

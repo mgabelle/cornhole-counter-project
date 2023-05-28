@@ -1,4 +1,6 @@
 import Head from 'next/head';
+import Link from 'next/link';
+
 import Slider from '@mui/material/Slider';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -15,8 +17,8 @@ import {useState} from 'react';
 export default function Home() {
     const [gameData, setGameData] = useState({
       blueTeam: "",
-      redTeam: ",",
-      time: 600,
+      redTeam: "",
+      inputTime: 600,
       isUnlimitedTime: false,
       pointsValue: 15,
     });
@@ -77,7 +79,7 @@ export default function Home() {
               onChange={(e) => {
                 setGameData({
                   ...gameData,
-                  time: e.target.value
+                  inputTime: e.target.value
                 })
               }}
               disabled={gameData.isUnlimitedTime}
@@ -111,7 +113,14 @@ export default function Home() {
 
         {/* Button new game */}
         <div>
-          <Button variant="contained" onClick={() => console.log(gameData)}>Nouvell partie</Button>
+          <Link
+          href={{
+            pathname: "/counter",
+            query: gameData, // the data
+          }}
+          >
+            <Button variant="contained" onClick={() => console.log(gameData)}>Nouvell partie</Button>
+          </Link>
         </div>
 
         <style global jsx>

@@ -8,13 +8,29 @@ import Round from '../../components/informations/Round';
 import Button from '@mui/material/Button';
 
 import styles from '../../styles/Main.module.css';
-import {useState, useEffect} from 'react';
 
-const POINTS_LIMIT = 15;
-const POINTS_DOWN = 10;
+import {useState, useEffect} from 'react';
+import { useRouter } from "next/router";
+
+const DEFAULT_POINTS_LIMIT = 15;
+const DEFAULT_POINTS_DOWN = 10;
 
 export default function Cornhole() {
-  const [time, setTime] = useState(600);
+  const router = useRouter();
+  const {
+    blueTeam,
+    redTeam,
+    inputTime,
+    isUnlimitedTime,
+    pointsValue,
+  } = router.query;
+  
+  console.log(router.query);
+
+  const [time, setTime] = useState(isUnlimitedTime === "true" ? -1 : parseInt(inputTime));
+
+  const pointsLimit = pointsValue ? pointsValue : DEFAULT_POINTS_LIMIT;
+  const pointsDown = pointsLimit === 15 ? DEFAULT_POINTS_DOWN : 15; 
 
   const [totalScore, setTotalScore] = useState([0, 0]);
   const [temporaryScore, setTemporaryScore] = useState([0, 0]);
@@ -55,13 +71,18 @@ export default function Cornhole() {
     setScorePlayer1(createNewScore());
     setScorePlayer2(createNewScore());
 
-    if (temporaryScore[0] == POINTS_LIMIT || temporaryScore[1] == POINTS_LIMIT) {
+    if (temporaryScore[0] == pointsLimit || temporaryScore[1] == pointsLimit) {
       announceWinner(temporaryScore);
     }
 
     if (time === 0 && temporaryScore[0] !== temporaryScore[1]) {
       announceWinner(temporaryScore);
     }
+  }
+
+  function calculateNewScore(currentScore, points) {
+    let newScore = currentScore + Math.abs(points);
+    return (newScore > pointsLimit) ? pointsDown : newScore;
   }
 
   function resetGame() {
@@ -100,6 +121,8 @@ export default function Cornhole() {
       {/* Temporary score */}
       <div className={styles.BottomDiv}>
         <TemporaryScore 
+            team1Name={blueTeam}
+            team2Name={redTeam}
             pointsPlayer1={pointsPlayer1}
             pointsPlayer2={pointsPlayer2}
             temporaryScore={temporaryScore}
@@ -143,11 +166,6 @@ export default function Cornhole() {
       </style>
     </div>
   )
-}
-
-function calculateNewScore(currentScore, points) {
-  let newScore = currentScore + Math.abs(points);
-  return (newScore > POINTS_LIMIT) ? POINTS_DOWN : newScore;
 }
 
 function createNewScore() {

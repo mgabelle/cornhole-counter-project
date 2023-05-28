@@ -1,6 +1,6 @@
 export default function Background() {
     return (
-        <img src="https://wallpapercave.com/wp/wp4526584.jpg" style={{
+        <img src="/park-background.jpg" style={{
             zIndex: -1,
             position: "absolute",
             width: "100vw",
