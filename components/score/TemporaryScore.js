@@ -24,8 +24,8 @@ export default function TemporaryScore({team1Name, team2Name, pointsPlayer1, poi
         borderRadius: "0px 9px 0px 0px"
     }
 
-    const blueTeam = isBlank(team1Name) ? "Equipe Bleu" : team1Name;
-    const redTeam = isBlank(team2Name) ? "Equipe Rouge" : team2Name;
+    const blueTeam = isBlank(team1Name) ? "Équipe Bleu" : team1Name;
+    const redTeam = isBlank(team2Name) ? "Équipe Rouge" : team2Name;
 
     return (
         <>
