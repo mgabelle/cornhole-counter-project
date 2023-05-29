@@ -1,165 +1,187 @@
 import Head from 'next/head';
-import Counter from "../components/counter/Counter";
-import Score from "../components/score/Score";
-import TemporaryScore from '../components/score/TemporaryScore';
-import Timer from '../components/informations/Timer';
-import Background from '../components/Background';
-import Round from '../components/informations/Round';
+import Link from 'next/link';
+
+import Slider from '@mui/material/Slider';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import TextField from '@mui/material/TextField';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 
-import styles from '../styles/Main.module.css';
-import {useState, useEffect} from 'react';
-
-const POINTS_LIMIT = 15;
-const POINTS_DOWN = 10;
+import {useState} from 'react';
 
 export default function Home() {
-  const [time, setTime] = useState(600);
+    const [gameData, setGameData] = useState({
+      blueTeam: "",
+      redTeam: "",
+      inputTime: 600,
+      isUnlimitedTime: false,
+      pointsValue: 15,
+    });
 
-  const [totalScore, setTotalScore] = useState([0, 0]);
-  const [temporaryScore, setTemporaryScore] = useState([0, 0]);
 
-  const [scorePlayer1, setScorePlayer1] = useState(createNewScore());
+    const handlePointsValueChange = (event) => {
+      setGameData({
+        ...gameData,
+        pointsValue: parseInt(event.target.value)
+      });
+    };
 
-  const [scorePlayer2, setScorePlayer2] = useState(createNewScore());
+    return (
+      <div className='HomeMain'>
+        <Head>
+          <link rel="shortcut icon" href="/cornhole-image.ico" />
+          <title>Cornhole</title>
+        </Head>
 
-  const [pointsPlayer1, setPointsPlayer1] = useState(0);
-  const [pointsPlayer2, setPointsPlayer2] = useState(0);
-  
-  const [round, setRound] = useState(1);
+        {/* Header */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "10px"
+        }}>
+          <div 
+            style={{
+              backgroundImage: "url(/logo-cornhole-vie.jpg)", 
+              backgroundPosition: "center",
+              width: "74px",
+              height: "34px"
+            }}>&nbsp;</div>
 
-  useEffect(() => {
-    updatePointsAndScore();
-  }, [scorePlayer1, scorePlayer2]);
+          {/* <img src='/logo-cornhole-vie.jpg'></img> */}
+          <p style={{marginLeft: "10px"}}>VIE Cornhole</p>
+        </div>
 
-  function updatePointsAndScore() {
-    //Set points for each player
-    let pointsPlayer1 = (scorePlayer1.board + scorePlayer1.hole*3)*(scorePlayer1.timesTwo ? 2 : 1) - (scorePlayer2.minusOne ? 1 : 0);
-    let pointsPlayer2 = (scorePlayer2.board + scorePlayer2.hole*3)*(scorePlayer2.timesTwo ? 2 : 1) - (scorePlayer1.minusOne ? 1 : 0);
-    setPointsPlayer1(pointsPlayer1);
-    setPointsPlayer2(pointsPlayer2);
+        {/* Team names */}
+        <FormControl>
+          <FormLabel id="team-name-label">Equipe Bleu</FormLabel>
+          <TextField id="outlined-basic" label="" variant="outlined" onChange={(e) => {
+            setGameData({
+              ...gameData,
+              blueTeam: e.target.value
+            })
+          }}/>
+        </FormControl>
 
-    //Set temporary score
-    let points = pointsPlayer1 - pointsPlayer2;
-    if (points > 0) {
-      setTemporaryScore([calculateNewScore(totalScore[0], points), totalScore[1]]);
-    } else {
-      setTemporaryScore([totalScore[0], calculateNewScore(totalScore[1], points)]);
-    }
-  }
+        <FormControl>
+          <FormLabel id="team-name-label">Equipe Rouge</FormLabel>
+          <TextField id="outlined-basic" label="" variant="outlined" onChange={(e) => {
+            setGameData({
+              ...gameData,
+              redTeam: e.target.value
+            })
+          }}/>
+        </FormControl>
 
-  function validateRound() {
-    setRound(round + 1);
-    setTotalScore(temporaryScore);
-    setTemporaryScore([0,0]);
-    setScorePlayer1(createNewScore());
-    setScorePlayer2(createNewScore());
+        {/* Game Time in minutes */}
+        <div>
+          <FormGroup>
+            <FormLabel id="time-label">Temps</FormLabel>
+            <FormControlLabel control={<Checkbox onChange={(e) => {
+              setGameData({
+                ...gameData,
+                isUnlimitedTime: !gameData.isUnlimitedTime
+              })
+            }}/>} label="Temps illimité" />
 
-    if (temporaryScore[0] == POINTS_LIMIT || temporaryScore[1] == POINTS_LIMIT) {
-      announceWinner(temporaryScore);
-    }
+            <Slider
+              onChange={(e) => {
+                setGameData({
+                  ...gameData,
+                  inputTime: e.target.value
+                })
+              }}
+              disabled={gameData.isUnlimitedTime}
+              aria-label="Time"
+              defaultValue={600}
+              valueLabelDisplay="auto"
+              valueLabelFormat={formatSecond}
+              step={60}
+              marks={getMinutesMarks()}
+              min={300}
+              max={1800}
+            />
+          </FormGroup>
+        </div>
 
-    if (time === 0 && temporaryScore[0] !== temporaryScore[1]) {
-      announceWinner(temporaryScore);
-    }
-  }
+        {/* Points number */}
+        <div>
+        <FormControl>
+          <FormLabel id="points-label">Points</FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={gameData.pointsValue}
+              onChange={handlePointsValueChange}
+            >
+              <FormControlLabel value={15} control={<Radio />} label="15 points (retour à 10)" />
+              <FormControlLabel value={21} control={<Radio />} label="21 points (retour à 15)" />
+            </RadioGroup>
+        </FormControl>
+        </div>
 
-  function resetGame() {
-    setRound(0);
-    setTotalScore([0,0]);
-    setTemporaryScore([0,0]);
-    setScorePlayer1(createNewScore());
-    setScorePlayer2(createNewScore());
-  }
-
-  return (
-    <div className={styles.Main}>
-      <Head>
-        <link rel="shortcut icon" href="/cornhole-image.ico" />
-        <title>Cornhole</title>
-      </Head>
-
-      {/* Background Image */}
-      <Background/>
-
-      {/* Informations */}
-      <div className={styles.Info}>
-        <Timer time={time} setTime={setTime}/>
-        <Round round={round}/>
-      </div>
-
-      {/* Total score */}
-      <Score totalScore={totalScore}/>
-      
-      {/* Score counter */}
-      <div className={styles.CounterContainer}>
-        <Counter score={scorePlayer1} setScore={setScorePlayer1} color="primary"/>
-        <Counter score={scorePlayer2} setScore={setScorePlayer2} color="error"/>
-      </div>
-
-      {/* Temporary score */}
-      <div className={styles.BottomDiv}>
-        <TemporaryScore 
-            pointsPlayer1={pointsPlayer1}
-            pointsPlayer2={pointsPlayer2}
-            temporaryScore={temporaryScore}
-        />
-
-        {/* Next round */}
-        <Button 
-          variant="contained" 
-          color='success'
-          sx={{
-            maxWidth: "70px",
-            maxHeight: "70px",
-            width: "70px",
-            height: "50px",
-            fontSize: "10px",
-            alignSelf: "center"
+        {/* Button new game */}
+        <div>
+          <Link
+          href={{
+            pathname: "/counter",
+            query: gameData, // the data
           }}
-          onClick={validateRound}
-        >Valider<br/> Manche</Button>
+          >
+            <Button variant="contained" color='error' onClick={() => console.log(gameData)}>Nouvell partie</Button>
+          </Link>
+        </div>
+
+        <style global jsx>
+          {`
+            html,
+            body,
+            body > div:first-child,
+            div#__next,
+            div#__next > div {
+              font-family: Verdana, Geneva, Tahoma, sans-serif;
+              height: 100%;
+              width: 100%
+              overflow: hidden;
+            }
+
+            body {
+              max-width: 450px;
+              margin: auto;
+            }
+
+            .HomeMain > div {
+              width: 100%;
+              margin-bottom: 20px;
+            }
+
+            .HomeMain {
+              margin-right: 18px;
+              margin-left: 18px;
+            }
+            `
+          }
+        </style>
       </div>
-
-
-      <style global jsx>
-        {`
-          html,
-          body,
-          body > div:first-child,
-          div#__next,
-          div#__next > div {
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            height: 100%;
-            overflow: hidden;
-          }
-
-          body {
-            max-width: 450px;
-            margin: auto;
-          }
-          `
-        }
-      </style>
-    </div>
-  )
+    )
 }
 
-function calculateNewScore(currentScore, points) {
-  let newScore = currentScore + Math.abs(points);
-  return (newScore > POINTS_LIMIT) ? POINTS_DOWN : newScore;
-}
-
-function createNewScore() {
-  return {
-    timesTwo:false, 
-    minusOne:false, 
-    board:0, 
-    hole:0
+function getMinutesMarks() {
+  let marks = [];
+  for (let i = 300; i <= 60*30; i+=300) {
+    marks.push({
+      value: i,
+      label: formatSecond(i),
+    })
   }
+  return marks;
 }
 
-function announceWinner(totalScore) {
-  console.log(totalScore);
-  alert(`Game over. Score is ${totalScore[0]} - ${totalScore[1]}`);
- }
+function formatSecond(value) {
+    return `${value/60}min`
+}

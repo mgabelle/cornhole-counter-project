@@ -1,4 +1,8 @@
-export default function TemporaryScore({pointsPlayer1, pointsPlayer2, temporaryScore}) {
+import { isBlank } from "../../utils"
+
+import Tooltip from '@mui/material/Tooltip';
+
+export default function TemporaryScore({team1Name, team2Name, pointsPlayer1, pointsPlayer2, temporaryScore}) {
     const borderBottomBlack = {
         borderBottom: "1px solid rgba(0,2,9,0.8113446062018558)",
     }
@@ -7,17 +11,22 @@ export default function TemporaryScore({pointsPlayer1, pointsPlayer2, temporaryS
         ...borderBottomBlack,
         color: "white",
         background: "rgba(0,2,9,0.8113446062018558)",
+        width: "50%"
     }
 
     const tdHeaderLeft = {
         ...tdHeaderStyle,
-        borderRadius: "9px 0px 0px 0px"
+        borderRadius: "9px 0px 0px 0px",
     }
 
     const tdHeaderRight = {
         ...tdHeaderStyle,
         borderRadius: "0px 9px 0px 0px"
     }
+
+    const blueTeam = isBlank(team1Name) ? "Equipe Bleu" : team1Name;
+    const redTeam = isBlank(team2Name) ? "Equipe Rouge" : team2Name;
+
     return (
         <>
             <style>
@@ -40,8 +49,8 @@ export default function TemporaryScore({pointsPlayer1, pointsPlayer2, temporaryS
             <table>
                 <tbody>
                     <tr>
-                        <td style={tdHeaderLeft}>Equipe 1</td>
-                        <td style={tdHeaderRight}>Equipe 2</td>
+                        <td style={tdHeaderLeft}>{blueTeam}</td>
+                        <td style={tdHeaderRight}>{redTeam}</td>
                     </tr>
                     <tr>
                         <td style={borderBottomBlack}>{pointsPlayer1}</td>
@@ -49,7 +58,22 @@ export default function TemporaryScore({pointsPlayer1, pointsPlayer2, temporaryS
                     </tr>
                     <tr colSpan={3}>
                         <td colSpan={3}>
-                            {temporaryScore[0]} - {temporaryScore[1]}
+                            {temporaryScore[0]} - {temporaryScore[1]} 
+                            <Tooltip 
+                                title="Score temporaire"
+                                enterTouchDelay={0}>
+                                <span style={{
+                                    position: "relative",
+                                    display: "inline-block",
+                                    left: "30%",
+                                    width: "18px",
+                                    height: "20px",
+                                    borderRadius: "9px",
+                                    textAlign: "center",
+                                    backgroundColor: "black",
+                                    color: "white"
+                                }}>?</span>
+                            </Tooltip>
                         </td>
                     </tr>
                 </tbody>

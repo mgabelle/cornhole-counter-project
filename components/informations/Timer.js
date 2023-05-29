@@ -30,7 +30,7 @@ export default function Timer({time, setTime}) {
             return createTimer();
         });
     }, [isPaused])
-
+     
     return (
         <div style={{
             display: "flex",
@@ -52,7 +52,7 @@ export default function Timer({time, setTime}) {
                 }}
             ></img>
             <span style={{marginLeft:"15px"}}>
-                {timeToMinutesSecondes(time)}
+                {time === -1 ? "Temps Illimité" : timeToMinutesSecondes(time)}
             </span>
         </div>
     )
