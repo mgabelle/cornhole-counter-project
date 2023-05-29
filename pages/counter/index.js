@@ -29,7 +29,7 @@ export default function Cornhole() {
 
   const [time, setTime] = useState(isUnlimitedTime === "true" ? -1 : parseInt(inputTime));
 
-  const pointsLimit = pointsValue ? pointsValue : DEFAULT_POINTS_LIMIT;
+  const pointsLimit = pointsValue === "15" ? DEFAULT_POINTS_LIMIT : 21;
   const pointsDown = pointsLimit === 15 ? DEFAULT_POINTS_DOWN : 15; 
 
   const [totalScore, setTotalScore] = useState([0, 0]);
