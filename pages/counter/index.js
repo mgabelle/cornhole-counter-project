@@ -1,4 +1,6 @@
 import Head from 'next/head';
+import Link from 'next/link';
+
 import Counter from "../../components/counter/Counter";
 import Score from "../../components/score/Score";
 import TemporaryScore from '../../components/score/TemporaryScore';
@@ -6,26 +8,38 @@ import Timer from '../../components/informations/Timer';
 import Background from '../../components/Background';
 import Round from '../../components/informations/Round';
 import Button from '@mui/material/Button';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 
 import styles from '../../styles/Main.module.css';
 
 import {useState, useEffect} from 'react';
 import { useRouter } from "next/router";
+import { isBlank } from '../../utils';
 
 const DEFAULT_POINTS_LIMIT = 15;
 const DEFAULT_POINTS_DOWN = 10;
+
+const BOTTOM_BUTTON_STYLE = {
+  maxWidth: "70px",
+  maxHeight: "70px",
+  width: "70px",
+  height: "50px",
+  fontSize: "10px",
+  alignSelf: "center"
+}
 
 export default function Cornhole() {
   const router = useRouter();
   const {
     blueTeam,
     redTeam,
-    inputTime,
-    isUnlimitedTime,
     pointsValue,
   } = router.query;
   
-  const [time, setTime] = useState(isUnlimitedTime === "true" ? -1 : parseInt(inputTime));
+  const [time, setTime] = useState(600);
 
   const pointsLimit = pointsValue === "15" ? DEFAULT_POINTS_LIMIT : 21;
   const pointsDown = pointsLimit === 15 ? DEFAULT_POINTS_DOWN : 15; 
@@ -41,6 +55,14 @@ export default function Cornhole() {
   const [pointsPlayer2, setPointsPlayer2] = useState(0);
   
   const [round, setRound] = useState(1);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [winner, setWinner] = useState(null);
+
+  useEffect(() => {
+    const {isUnlimitedTime, inputTime} = router.query;
+    setTime(isUnlimitedTime === "true" ? -1 : parseInt(inputTime));
+  }, [router.isReady])
 
   useEffect(() => {
     updatePointsAndScore();
@@ -70,11 +92,11 @@ export default function Cornhole() {
     setScorePlayer2(createNewScore());
 
     if (temporaryScore[0] == pointsLimit || temporaryScore[1] == pointsLimit) {
-      announceWinner(temporaryScore);
+      announceWinner();
     }
 
     if (time === 0 && temporaryScore[0] !== temporaryScore[1]) {
-      announceWinner(temporaryScore);
+      announceWinner();
     }
   }
 
@@ -82,6 +104,19 @@ export default function Cornhole() {
     let newScore = currentScore + Math.abs(points);
     return (newScore > pointsLimit) ? pointsDown : newScore;
   }
+
+  function announceWinner() {
+    setDialogOpen(true);
+    if (totalScore[0] > totalScore[1]) {
+      setWinner(isBlank(blueTeam) ? "Équipe Bleu" : blueTeam);
+    } else {
+      setWinner(isBlank(redTeam) ? "Équipe Bleu" : redTeam);
+    }
+  }
+
+  function handleCloseDialog() {
+    setDialogOpen(false);
+  };
 
   return (
     <div className={styles.Main}>
@@ -118,21 +153,30 @@ export default function Cornhole() {
             temporaryScore={temporaryScore}
         />
 
-        {/* Next round */}
-        <Button 
-          variant="contained" 
-          color='success'
-          sx={{
-            maxWidth: "70px",
-            maxHeight: "70px",
-            width: "70px",
-            height: "50px",
-            fontSize: "10px",
-            alignSelf: "center"
-          }}
-          onClick={validateRound}
-        >Valider<br/> Manche</Button>
+        {/* Next round // Reset button*/}
+        {
+          winner ? 
+            <Link
+            href="/"
+            >
+              <Button 
+                variant="contained" 
+                color='error'
+                sx={BOTTOM_BUTTON_STYLE}
+              >Nouvelle<br/> Partie</Button>
+            </Link>
+          : 
+            <Button 
+            variant="contained" 
+            color='success'
+            sx={BOTTOM_BUTTON_STYLE}
+            onClick={validateRound}
+          >Valider<br/> Manche</Button>
+        }
+        
       </div>
+
+      <AnnounceWinnerDialog totalScore={totalScore} open={dialogOpen} onClose={handleCloseDialog} winner={winner}/>
 
 
       <style global jsx>
@@ -167,6 +211,20 @@ function createNewScore() {
   }
 }
 
-function announceWinner(totalScore) {
-  alert(`Game over. Score is ${totalScore[0]} - ${totalScore[1]}`);
+function AnnounceWinnerDialog({totalScore, open, onClose, winner}) {
+  const handleClose = () => {
+    onClose();
+  };
+
+  return (
+    <Dialog onClose={handleClose} open={open}>
+      <DialogTitle>Partie terminée</DialogTitle>
+      <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Score : {totalScore[0]} - {totalScore[1]} <br/>
+            Équipe gagnante: {winner}
+          </DialogContentText>
+        </DialogContent>
+    </Dialog>
+  )
  }

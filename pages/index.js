@@ -133,7 +133,7 @@ export default function Home() {
             query: gameData, // the data
           }}
           >
-            <Button variant="contained" color='error' onClick={() => console.log(gameData)}>Nouvell partie</Button>
+            <Button variant="contained" color='error' onClick={() => console.log(gameData)}>Nouvelle partie</Button>
           </Link>
         </div>
 
