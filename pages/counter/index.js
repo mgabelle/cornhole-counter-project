@@ -85,14 +85,6 @@ export default function Cornhole() {
     return (newScore > pointsLimit) ? pointsDown : newScore;
   }
 
-  function resetGame() {
-    setRound(0);
-    setTotalScore([0,0]);
-    setTemporaryScore([0,0]);
-    setScorePlayer1(createNewScore());
-    setScorePlayer2(createNewScore());
-  }
-
   return (
     <div className={styles.Main}>
       <Head>
