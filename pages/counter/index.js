@@ -6,6 +6,10 @@ import Timer from '../../components/informations/Timer';
 import Background from '../../components/Background';
 import Round from '../../components/informations/Round';
 import Button from '@mui/material/Button';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 
 import styles from '../../styles/Main.module.css';
 
@@ -42,6 +46,8 @@ export default function Cornhole() {
   
   const [round, setRound] = useState(1);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   useEffect(() => {
     updatePointsAndScore();
   }, [scorePlayer1, scorePlayer2]);
@@ -70,11 +76,11 @@ export default function Cornhole() {
     setScorePlayer2(createNewScore());
 
     if (temporaryScore[0] == pointsLimit || temporaryScore[1] == pointsLimit) {
-      announceWinner(temporaryScore);
+      announceWinner();
     }
 
     if (time === 0 && temporaryScore[0] !== temporaryScore[1]) {
-      announceWinner(temporaryScore);
+      announceWinner();
     }
   }
 
@@ -82,6 +88,14 @@ export default function Cornhole() {
     let newScore = currentScore + Math.abs(points);
     return (newScore > pointsLimit) ? pointsDown : newScore;
   }
+
+  function announceWinner() {
+    setDialogOpen(true);
+  }
+
+  function handleCloseDialog() {
+    setDialogOpen(false);
+  };
 
   return (
     <div className={styles.Main}>
@@ -134,6 +148,8 @@ export default function Cornhole() {
         >Valider<br/> Manche</Button>
       </div>
 
+      <AnnounceWinnerDialog totalScore={totalScore} open={dialogOpen} onClose={handleCloseDialog}/>
+
 
       <style global jsx>
         {`
@@ -167,6 +183,19 @@ function createNewScore() {
   }
 }
 
-function announceWinner(totalScore) {
-  alert(`Game over. Score is ${totalScore[0]} - ${totalScore[1]}`);
+function AnnounceWinnerDialog({totalScore, open, onClose}) {
+  const handleClose = () => {
+    onClose();
+  };
+
+  return (
+    <Dialog onClose={handleClose} open={open}>
+      <DialogTitle>Partie terminée</DialogTitle>
+      <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Le score est de : {totalScore[0]} - {totalScore[1]}
+          </DialogContentText>
+        </DialogContent>
+    </Dialog>
+  )
  }
