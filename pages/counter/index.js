@@ -25,8 +25,6 @@ export default function Cornhole() {
     pointsValue,
   } = router.query;
   
-  console.log(router.query);
-
   const [time, setTime] = useState(isUnlimitedTime === "true" ? -1 : parseInt(inputTime));
 
   const pointsLimit = pointsValue === "15" ? DEFAULT_POINTS_LIMIT : 21;
@@ -170,6 +168,5 @@ function createNewScore() {
 }
 
 function announceWinner(totalScore) {
-  console.log(totalScore);
   alert(`Game over. Score is ${totalScore[0]} - ${totalScore[1]}`);
  }
