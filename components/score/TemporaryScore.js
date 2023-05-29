@@ -1,5 +1,7 @@
 import { isBlank } from "../../utils"
 
+import Tooltip from '@mui/material/Tooltip';
+
 export default function TemporaryScore({team1Name, team2Name, pointsPlayer1, pointsPlayer2, temporaryScore}) {
     const borderBottomBlack = {
         borderBottom: "1px solid rgba(0,2,9,0.8113446062018558)",
@@ -56,7 +58,22 @@ export default function TemporaryScore({team1Name, team2Name, pointsPlayer1, poi
                     </tr>
                     <tr colSpan={3}>
                         <td colSpan={3}>
-                            {temporaryScore[0]} - {temporaryScore[1]}
+                            {temporaryScore[0]} - {temporaryScore[1]} 
+                            <Tooltip 
+                                title="Score temporaire"
+                                enterTouchDelay={0}>
+                                <span style={{
+                                    position: "relative",
+                                    display: "inline-block",
+                                    left: "30%",
+                                    width: "18px",
+                                    height: "20px",
+                                    borderRadius: "9px",
+                                    textAlign: "center",
+                                    backgroundColor: "black",
+                                    color: "white"
+                                }}>?</span>
+                            </Tooltip>
                         </td>
                     </tr>
                 </tbody>
