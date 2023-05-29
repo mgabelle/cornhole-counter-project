@@ -36,12 +36,10 @@ export default function Cornhole() {
   const {
     blueTeam,
     redTeam,
-    inputTime,
-    isUnlimitedTime,
     pointsValue,
   } = router.query;
   
-  const [time, setTime] = useState(isUnlimitedTime === "true" ? -1 : parseInt(inputTime));
+  const [time, setTime] = useState(600);
 
   const pointsLimit = pointsValue === "15" ? DEFAULT_POINTS_LIMIT : 21;
   const pointsDown = pointsLimit === 15 ? DEFAULT_POINTS_DOWN : 15; 
@@ -60,6 +58,11 @@ export default function Cornhole() {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [winner, setWinner] = useState(null);
+
+  useEffect(() => {
+    const {isUnlimitedTime, inputTime} = router.query;
+    setTime(isUnlimitedTime === "true" ? -1 : parseInt(inputTime));
+  }, [router.isReady])
 
   useEffect(() => {
     updatePointsAndScore();
