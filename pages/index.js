@@ -39,8 +39,22 @@ export default function Home() {
         </Head>
 
         {/* Header */}
-        <div>
-          <p>VIE Cornhole</p>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "10px"
+        }}>
+          <div 
+            style={{
+              backgroundImage: "url(/logo-cornhole-vie.jpg)", 
+              backgroundPosition: "center",
+              width: "74px",
+              height: "34px"
+            }}>&nbsp;</div>
+
+          {/* <img src='/logo-cornhole-vie.jpg'></img> */}
+          <p style={{marginLeft: "10px"}}>VIE Cornhole</p>
         </div>
 
         {/* Team names */}
@@ -119,7 +133,7 @@ export default function Home() {
             query: gameData, // the data
           }}
           >
-            <Button variant="contained" onClick={() => console.log(gameData)}>Nouvell partie</Button>
+            <Button variant="contained" color='error' onClick={() => console.log(gameData)}>Nouvell partie</Button>
           </Link>
         </div>
 
@@ -143,7 +157,12 @@ export default function Home() {
 
             .HomeMain > div {
               width: 100%;
-              margin-bottom: 20px
+              margin-bottom: 20px;
+            }
+
+            .HomeMain {
+              margin-right: 18px;
+              margin-left: 18px;
             }
             `
           }
